@@ -1,1 +1,2 @@
-# canteen-management
+.env
+node_modules
