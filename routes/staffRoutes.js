@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const Food = require("../models/Food");
+const Food = require("../models/food");
 const authorizeRoles = require('../middlewares/authorizeRoles');
 
 

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const User = require("../models/User");
+const RefreshToken = require("../models/RefreshToken");
 const authorizeRoles = require('../middlewares/authorizeRoles');
 
 let refreshTokens = [];
@@ -124,42 +125,77 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
+// ✅ LOGIN
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', { session: false }, async (err, user, info) => {
     if (err) return next(err);
-    if (!user)
-      return res.status(401).json({ success: false, message: info?.message });
+    if (!user) return res.status(401).json({ success: false, message: info?.message });
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
-    req.header('acesss-token', accessToken);
-    req.header()
-    res.json({ success: true, accessToken, refreshToken });
+    // Save refresh token in DB with expiry
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7); // 7 days expiry
+    await RefreshToken.create({ token: refreshToken, user: user._id, expiresAt });
+
+    // Set cookies
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false, // Set true in production
+      maxAge: 15 * 60 * 1000
+    });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({ success: true, message: 'Logged in successfully' });
   })(req, res, next);
 });
 
-// Refresh Token
-router.post("/token", (req, res) => {
-  const { refreshToken } = req.body;
-  if (!refreshToken || !refreshTokens.includes(refreshToken)) {
-    return res.status(403).json({ message: "Invalid refresh token" });
-  }
+// 🔁 REFRESH TOKEN
+router.post('/token', async (req, res) => {
+  const refreshToken = req.cookies?.refreshToken;
+
+  if (!refreshToken)
+    return res.status(403).json({ message: 'No refresh token' });
+
+  const stored = await RefreshToken.findOne({ token: refreshToken });
+
+  if (!stored || stored.expiresAt < new Date())
+    return res.status(403).json({ message: 'Invalid or expired refresh token' });
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     const newAccessToken = generateAccessToken(user);
+
+    res.cookie('accessToken', newAccessToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 15 * 60 * 1000
+    });
+
     res.json({ accessToken: newAccessToken });
   });
 });
 
-// Logout
-router.post("/logout", (req, res) => {
-  const { refreshToken } = req.body;
-  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-  res.sendStatus(204);
+// 🚪 LOGOUT
+router.post('/logout', async (req, res) => {
+  const refreshToken = req.cookies?.refreshToken;
+  if (refreshToken) {
+    await RefreshToken.deleteOne({ token: refreshToken });
+  }
+
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+  res.json({ success: true, message: 'Logged out successfully' });
 });
+
 
 // Protected Route
 router.get(
@@ -189,8 +225,5 @@ router.get(
     res.json({ message: 'Customer canteen menu', user: req.user });
   }
 );
-
-module.exports = router;
-
 
 module.exports = router;

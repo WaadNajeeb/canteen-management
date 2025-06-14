@@ -66,7 +66,7 @@ const userSchema = new Schema(
     myPastOrders: [{ type: Schema.Types.ObjectId, ref: 'orders' }],
 
     //favours the user owes
-    myFavourites: [{ type: Schema.Types.ObjectId, ref: 'Favourites' }]
+    myFavourites: [{ type: Schema.Types.ObjectId, ref: 'Food' }]
 
   },
   {

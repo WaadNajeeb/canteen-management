@@ -1,27 +1,38 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
-const User = require("../models/User");
 const dotenv = require("dotenv");
-dotenv.config();
 const bcrypt = require("bcrypt-nodejs");
+const User = require("../models/User");
 
-// Local strategy
+dotenv.config();
+
+// 🔒 Custom cookie extractor
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies['accessToken']; // name used in res.cookie()
+  }
+  return token;
+};
+
+// 📧 Local strategy (email + password)
 passport.use(
-  new LocalStrategy(  {
-      usernameField: 'email', // we use 'email' instead of default 'username'
+  new LocalStrategy(
+    {
+      usernameField: 'email',
       passwordField: 'password',
       session: false
     },
     async (email, password, done) => {
-    try {
-      const user = await User.findOne({ email });
-      if (!user) return done(null, false, { message: "User not found" });
+      try {
+        const user = await User.findOne({ email });
+        if (!user) return done(null, false, { message: "User not found" });
 
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-          if (err) throw err;
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) return done(err);
           if (isMatch) {
-            return done(null, user, { success: true, message: "Logged in!" }); //return null for error and return user if password matches hash.
+            return done(null, user, { success: true, message: "Logged in!" });
           } else {
             return done(null, false, {
               success: false,
@@ -29,17 +40,18 @@ passport.use(
             });
           }
         });
-    } catch (err) {
-      return done(err);
+      } catch (err) {
+        return done(err);
+      }
     }
-  })
+  )
 );
 
-// JWT strategy
+// 🔐 JWT strategy from cookie
 passport.use(
   new JwtStrategy(
     {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: cookieExtractor, // ✅ Use cookie instead of header
       secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     },
     async (jwt_payload, done) => {
