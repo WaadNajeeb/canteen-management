@@ -1,5 +1,6 @@
 module.exports = {
   cookieKey: 'gferknvehsrfjvnry34789ry349ryxmnob',
   mongoURI:
-    'mongodb+srv://omarsamoel2015:qqidelExeCutNd3T@tracking.hvyoahu.mongodb.net/',
+    'mongodb+srv://waadnajeeb999:j6IaHmVBR1S7hvW1@canteen-management.cjkgfsn.mongodb.net/',
+
 };

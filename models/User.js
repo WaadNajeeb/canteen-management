@@ -43,9 +43,13 @@ const userSchema = new Schema(
       required: true,
       default: false,
     },
-    //boolean to log if user has requested a new password.
-    //without this the forgot password function won't work
-
+    
+    role: {
+      type: String,
+      enum: ['customer', 'staff'],
+      required: true,
+      default: 'customer'
+    },
     experiencePoints: {
       type: Number,
       required: true,
@@ -78,4 +82,4 @@ userSchema.methods.comparePassword = (password, hash) => {
   return bcrypt.compareSync(password, hash);
 };
 
-mongoose.model('users', userSchema);
+module.exports = mongoose.model('users', userSchema);
