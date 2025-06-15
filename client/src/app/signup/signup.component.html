@@ -1,0 +1,26 @@
+<div class="container">
+  <mat-card style="  max-width: 450px !important;
+  padding: 10px; background:white"  [formGroup]="signUpFormGroup">
+    <div class="logo-container" style="max-width: 450px;">
+      <img class="auth-logo" src="../../assets/trans_oran_park.png"  width='1280' height='720' />
+    </div>
+    <mat-card-header>
+      <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="padding-top:20px;">
+      <app-ui-textbox-material [autofocus]="true" [control]="signUpFormGroup.controls.firstName" style="margin-bottom: 20px;" icon="badge" label="First Name" ></app-ui-textbox-material>
+      <app-ui-textbox-material [autofocus]="true" [control]="signUpFormGroup.controls.lastName" style="margin-bottom: 20px;" icon="badge" label="Last Name" ></app-ui-textbox-material>
+
+      <app-ui-textbox-material [autofocus]="true" [control]="signUpFormGroup.controls.email" style="margin-bottom: 20px;" icon="person" label="Email" ></app-ui-textbox-material>
+      <app-password  [control]="signUpFormGroup.controls.password"></app-password>
+       <app-password  [control]="signUpFormGroup.controls.password" label="Confirm Password"></app-password>
+    </mat-card-content>
+
+    <div class="button-container">
+        <button (click)="onSubmit()" mat-raised-button class="submit-button" color="primary">Login</button>
+    </div>
+
+  </mat-card>
+</div>
+
+

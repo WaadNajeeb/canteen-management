@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@angular-eslint/schematics": "^20.0.0",
     "bcrypt": "^6.0.0",
     "bcrypt-nodejs": "^0.0.3",
     "concurrently": "^9.1.2",

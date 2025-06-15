@@ -1,0 +1,21 @@
+<mat-form-field style="width: 100%;" [appearance]="'outline'" class="passoword-form-field">
+  <mat-label>{{label()}}</mat-label>
+  <input [required]="required()" [type]="'text'" matInput
+    placeholder="{{label()}}" [formControl]="control()"  />
+  @if(icon()){
+    <mat-icon class="auth-icons" matIconPrefix>{{icon()}}</mat-icon>
+  }
+
+  @if (required() && control().hasError('required')) {
+    <mat-error>Please enter a {{label()}}</mat-error>
+  }
+
+  @if (control().hasError("customValidation")) {
+    <mat-error>{{control().getError("customValidation").message}}</mat-error>
+  }
+
+  @if (control().hasError("minlength")) {
+    <mat-error>{{ label() }} at least characters</mat-error>
+  }
+
+</mat-form-field>

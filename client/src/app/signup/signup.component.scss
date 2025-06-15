@@ -1,0 +1,36 @@
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100svh;
+}
+
+
+.auth-logo{
+  height: auto;
+  max-width: 20%;
+  align-self: center;
+  justify-content: center;
+}
+
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.submit-button{
+  background-color: #024f5c !important;
+  color:#fff !important;
+  width: 100%;
+
+}
+.button-container{
+  padding: 20px;
+   display: flex;
+   justify-content: center;
+
+}

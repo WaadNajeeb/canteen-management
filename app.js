@@ -6,13 +6,17 @@ const passport = require("./services/passport");
 const authRoutes = require("./routes/authRoutes");
 const staffRoutes = require("./routes/staffRoutes");
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const keys = require('./config/keys');
 const app = express();
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
-
+app.use(cors({
+  origin: 'http://localhost:4200', // don't use '*'
+  credentials: true               // allow cookies and credentials
+}));
 mongoose
   .connect(keys.mongoURI, {
     useUnifiedTopology: true,

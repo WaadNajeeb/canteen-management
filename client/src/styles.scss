@@ -1,17 +1,21 @@
-@use '@angular/material' as mat;
-@use '../custom-theme_theme-colors' as my-theme;
-html {
-  @include mat.theme((
-    color: (
-      primary: my-theme.$primary-palette,
-      tertiary: my-theme.$tertiary-palette,
-
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  align-items: stretch;
+  height: 100vh;
+  height: 100svh;
 }
-/* You can add global styles to this file, and also import other style files */
-body{
-  margin: 0px;
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+p {
+  margin: 0;
 }

@@ -1,0 +1,67 @@
+.text-content {
+  font-size: 2.5em; /* Significantly larger heading for 4K */
+  margin-bottom: 30px;
+  line-height: 1.1;
+  color: #024f5c;
+  text-align: center;
+}
+
+
+.home-wrapper {
+  padding: 2rem;
+  text-align: center;
+}
+
+.text-section {
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  margin-top: 1rem;
+  color: #555;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.food-card {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+}
+
+
+mat-card-content {
+    padding: 1rem;
+
+    mat-card-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #2e7d32;
+      font-size: 0.95rem;
+    }
+  }
+

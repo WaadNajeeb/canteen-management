@@ -1,0 +1,85 @@
+
+.sidenav-container {
+  height:calc(100vh - 100px)
+}
+
+mat-sidenav.small-nav-side,
+mat-sidenav.expanded-nav-side {
+  background-color: #fafafa;
+  transition: width 0.3s ease;
+
+}
+
+mat-sidenav.small-nav-side {
+  width: 100px;
+}
+
+mat-sidenav.expanded-nav-side {
+  width: 280px;
+}
+
+
+.logo-container img {
+  height: 40px;
+}
+
+.nav-text {
+  font-weight: 500;
+  font-size: 1.3em;
+  color: #333;
+}
+
+.sidebar-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+  padding: 30px;
+  margin-top: 50px;
+}
+
+.mat-expanded-btn {
+  width: 100%;
+  color: #024f5c !important;
+  justify-content: flex-start;
+  font-size: 1.3em;
+  gap: 10px;
+}
+
+.mat-expanded-btn mat-icon {
+  margin-right: 8px;
+}
+
+.mat-small-btn {
+  color: #024f5c !important;
+  width: 56px;
+  height: 56px;
+}
+.mat-small-btn button.active{
+      background-color: #024f5c !important;
+  color: white !important;
+}
+
+.small-btn {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-icon{
+  transform: scale(1.6);
+}
+.mat-expanded-btn.active {
+  background-color: #024f5c !important;
+  color: white !important;
+}
+
+.mat-small-btn.active {
+  background-color: #024f5c !important;
+  color: white !important;
+}
+
+.mat-expanded-btn.active mat-icon,
+.mat-small-btn.active mat-icon {
+  color: white !important;
+}

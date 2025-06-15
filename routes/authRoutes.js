@@ -157,6 +157,66 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+
+router.post('/login/user', (req, res, next) => {
+  passport.authenticate('local', { session: false }, async (err, user, info) => {
+    if (err) return next(err);
+    if (!user || user.role !== 'user')
+      return res.status(403).json({ message: 'Access denied: Not a user' });
+
+    // same logic as before:
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    await RefreshToken.create({ token: refreshToken, user: user._id, expiresAt });
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 15 * 60 * 1000
+    });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({ success: true, message: 'User logged in' });
+  })(req, res, next);
+});
+
+
+router.post('/login/staff', (req, res, next) => {
+  passport.authenticate('local', { session: false }, async (err, user, info) => {
+    if (err) return next(err);
+    if (!user || user.role !== 'staff')
+      return res.status(403).json({ message: 'Access denied: Not a staff member' });
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    await RefreshToken.create({ token: refreshToken, user: user._id, expiresAt });
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 15 * 60 * 1000
+    });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({ success: true, message: 'Staff logged in' });
+  })(req, res, next);
+});
+
+
 // 🔁 REFRESH TOKEN
 router.post('/token', async (req, res) => {
   const refreshToken = req.cookies?.refreshToken;
@@ -183,6 +243,13 @@ router.post('/token', async (req, res) => {
     res.json({ accessToken: newAccessToken });
   });
 });
+
+
+router.get('/current_user', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { _id, email, role } = req.user;
+  res.json({ role });
+});
+
 
 // 🚪 LOGOUT
 router.post('/logout', async (req, res) => {
