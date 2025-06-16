@@ -9,45 +9,19 @@
   </div>
 
   <div class="card-row">
+    @for (item of topPicks$ | async; track $index) {
+
     <mat-card class="food-card">
       <img src="../../../assets/ham.jpg" alt="Burger" />
       <mat-card-content>
-        <mat-card-title>Oran Park Cheese Burger</mat-card-title>
+        <mat-card-title>{{item.name}}</mat-card-title>
         <p class="description">
-          A juicy grilled patty with melted cheese, fresh lettuce, tomato, and our signature sauce — all on a toasted bun.
+        {{item.description}}
         </p>
-        <div class="price">From $6.50</div>
+        <div class="price">From $ {{item.price}}</div>
       </mat-card-content>
     </mat-card>
-     <mat-card class="food-card">
-      <img src="../../../assets/ham.jpg" alt="Burger" />
-      <mat-card-content>
-        <mat-card-title>Oran Park Cheese Burger</mat-card-title>
-        <p class="description">
-          A juicy grilled patty with melted cheese, fresh lettuce, tomato, and our signature sauce — all on a toasted bun.
-        </p>
-        <div class="price">From $6.50</div>
-      </mat-card-content>
-    </mat-card>
-     <mat-card class="food-card">
-      <img src="../../../assets/ham.jpg" alt="Burger" />
-      <mat-card-content>
-        <mat-card-title>Oran Park Cheese Burger</mat-card-title>
-        <p class="description">
-          A juicy grilled patty with melted cheese, fresh lettuce, tomato, and our signature sauce — all on a toasted bun.
-        </p>
-        <div class="price">From $6.50</div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="food-card">
-      <img src="../../../assets/ham.jpg" alt="Burger" />
-      <mat-card-content>
-        <mat-card-title>Oran Park Cheese Burger</mat-card-title>
-        <p class="description">
-          A juicy grilled patty with melted cheese, fresh lettuce, tomato, and our signature sauce — all on a toasted bun.
-        </p>
-        <div class="price">From $6.50</div>
-      </mat-card-content>
-    </mat-card>
+    }
+
   </div>
 </div>

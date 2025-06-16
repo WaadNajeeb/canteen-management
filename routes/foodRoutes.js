@@ -31,6 +31,19 @@ router.get('/menu', async (req, res) => {
 });
 
 
+router.get('/top-menu-pick',    passport.authenticate('jwt', { session: false }),
+async (req, res) => {
+  try {
+    const items = await Food.find({isTopPick:true }).limit(4); // Limit to top 3 items
+    if (!items || items.length === 0) {
+      return res.status(404).json({ message: 'No items found' });
+    }
+    res.json( items );
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err });
+  }
+});
+
 
 router.get('/menu/:id', async (req, res) => {
   try {
@@ -82,7 +95,7 @@ router.delete(
   '/menu/:id',
   passport.authenticate('jwt', { session: false }),
   authorizeRoles('staff'),
-  async (req, res) => {
+  async (req, res) =>  {
     try {
       const result = await Food.findByIdAndDelete(req.params.id);
       if (!result) return res.status(404).json({ message: 'Item not found' });
@@ -92,3 +105,5 @@ router.delete(
     }
   }
 );
+
+module.exports = router;

@@ -13,7 +13,7 @@ import { AuthService, Register } from '../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { tap, catchError, EMPTY, map } from 'rxjs';
 import { NotificationService } from '../services/notification.service';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProgressService } from '../services/progress.service';
 
 @Component({
@@ -76,8 +76,5 @@ export interface RegisterFormGroup{
   email: FormControl<string| null>;
   password: FormControl<string| null>;
   confirmPass: FormControl<string| null>;
-}
-function takeUntilDestroyed(destroyRef: any): import("rxjs").OperatorFunction<string, unknown> {
-  throw new Error('Function not implemented.');
 }
 

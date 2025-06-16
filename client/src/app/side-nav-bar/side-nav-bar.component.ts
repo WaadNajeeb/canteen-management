@@ -15,7 +15,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { MatListModule } from '@angular/material/list';
+import { MatDivider, MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterOutlet } from '@angular/router';
 import { ConsumerNavBarComponent } from '../consumer-nav-bar/consumer-nav-bar.component';
@@ -33,6 +33,7 @@ import { ConsumerNavBarComponent } from '../consumer-nav-bar/consumer-nav-bar.co
     MatToolbarModule,
     RouterOutlet,
     ConsumerNavBarComponent,
+    MatDivider
   ],
   templateUrl: './side-nav-bar.component.html',
   styleUrl: './side-nav-bar.component.scss',
@@ -59,8 +60,8 @@ export class SideNavBarComponent {
     this.router.navigate(['/login']);
   }
 
-  toggleSidenav(toggle: boolean) {
-    this.isExpanded = !toggle;
+  toggleSidenav() {
+    this.isExpanded = !this.isExpanded;
   }
 
   isMobile: boolean = false;

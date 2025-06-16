@@ -128,8 +128,12 @@ router.post("/register", async (req, res) => {
 // ✅ LOGIN
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', { session: false }, async (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.status(401).json({ success: false, message: info?.message });
+    if (err) {
+      return next(err);
+    } 
+    if (!user) {
+      return res.status(404).json({ success: false, message: info?.message });
+    }
 
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
@@ -216,38 +220,85 @@ router.post('/login/staff', (req, res, next) => {
   })(req, res, next);
 });
 
+router.get('/isSigned', (req, res) => {
 
-// 🔁 REFRESH TOKEN
-router.post('/token', async (req, res) => {
+  const accessToken = req.cookies?.accessToken;
+  if(accessToken){
+    return res.json(true);
+  }
+
+  res.json(false);
+});
+
+router.get('/token', async (req, res) => {
   const refreshToken = req.cookies?.refreshToken;
 
-  if (!refreshToken)
-    return res.status(403).json({ message: 'No refresh token' });
+  console.log('Refresh token received:', refreshToken);
 
-  const stored = await RefreshToken.findOne({ token: refreshToken });
+  if (!refreshToken) {
+    return res.status(403).json(false);
+  }
 
-  if (!stored || stored.expiresAt < new Date())
-    return res.status(403).json({ message: 'Invalid or expired refresh token' });
+  try {
+    const stored = await RefreshToken.findOne({ token: refreshToken });
+    if (!stored || stored.expiresAt < new Date()) {
+      return res.status(403).json(false);
+    }
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
+    // Verify refresh token
+    const user = await new Promise((resolve, reject) => {
+      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(decoded);
+      });
+    });
+
+    // Generate new access token
     const newAccessToken = generateAccessToken(user);
 
+    // Set access token in cookie
     res.cookie('accessToken', newAccessToken, {
       httpOnly: true,
       sameSite: 'Lax',
-      secure: false,
-      maxAge: 15 * 60 * 1000
+      secure: false, // Set to true in production with HTTPS
+      maxAge: 15 * 60 * 1000 // 15 minutes
     });
 
-    res.json({ accessToken: newAccessToken });
+    return res.json(true);
+  } catch (error) {
+    console.error('Refresh token error:', error);
+    return res.status(403).json(false);
+  }
+});
+
+// Example generateAccessToken function (adjust to your implementation)
+function generateAccessToken(user) {
+  return jwt.sign({ id: user.id, username: user.username }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: '15m'
   });
+}
+
+module.exports = router;
+
+router.get('/current_user', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  const { _id, email, role } = req.user;
+  
+  const {fullName} = await User.findById(_id);
+
+  res.json({ fullName, email, role });
 });
 
 
-router.get('/current_user', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { _id, email, role } = req.user;
-  res.json({ role });
+router.get('/isAuthenticated' , passport.authenticate('jwt', { session: false }), (req, res) => {
+  const user = req.user;
+
+  if(user){
+    res.json(true);
+  }
+
+  res.json(false);
 });
 
 

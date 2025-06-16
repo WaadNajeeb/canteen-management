@@ -2,8 +2,8 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const Order = require('../models/Order');
-const MenuItem = require('../models/MenuItem');
-const authorizeRoles = require('../middleware/authorizeRoles');
+const Food = require('../models/food');
+const authorizeRoles = require('../middlewares/authorizeRoles');
 
 // Add to favourites
 router.post(

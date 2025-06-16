@@ -1,6 +1,6 @@
 
-<app-consumer-nav-bar (clicked)="toggleSidenav($event)" ></app-consumer-nav-bar>
-<mat-sidenav-container class="sidenav-container">
+<!-- <app-consumer-nav-bar (clicked)="toggleSidenav($event)" ></app-consumer-nav-bar> -->
+<mat-sidenav-container class="sidenav-container"  >
 
    @if (isExpanded && !isMobile) {
       <mat-sidenav
@@ -9,38 +9,40 @@
         class="expanded-nav-side"
         >
 
+       <ng-container *ngTemplateOutlet="logoTitle" ></ng-container>
+
       <div class="sidebar-icons">
-        <button mat-mini-fab extended class="mat-expanded-btn"
+        <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'home'"
                 (click)="setActive('home')">
           <mat-icon>home</mat-icon>
           Home
         </button>
-         <button mat-mini-fab extended class="mat-expanded-btn"
+         <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'favourite-orders'"
                 (click)="setActive('favourite-orders')">
           <mat-icon>favorite</mat-icon>
           Favorite
         </button>
-        <button mat-mini-fab extended class="mat-expanded-btn"
+        <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'past-orders'"
                 (click)="setActive('past-orders')">
           <mat-icon>history</mat-icon>
           Past Orders
         </button>
-        <button mat-mini-fab extended class="mat-expanded-btn"
+        <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'checkout'"
                 (click)="setActive('checkout')">
           <mat-icon>shopping_cart</mat-icon>
           Checkout
         </button>
-        <button mat-mini-fab extended class="mat-expanded-btn"
+        <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'settings'"
                 (click)="setActive('settings')">
           <mat-icon>settings</mat-icon>
           Settings
         </button>
-        <button mat-mini-fab extended class="mat-expanded-btn"
+        <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'logout'"
                 (click)="setActive('logout')">
           <mat-icon>logout</mat-icon>
@@ -56,44 +58,47 @@
       class="small-nav-side"
       >
 
+
+      <ng-container *ngTemplateOutlet="logo" ></ng-container>
+
       <div class="sidebar-icons">
         <div class="small-btn" >
-          <button mat-mini-fab class="mat-small-btn" color="primary"
+          <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'home'"
                   (click)="setActive('home')">
             <mat-icon>home</mat-icon>
           </button>
         </div>
         <div class="small-btn" >
-          <button mat-mini-fab class="mat-small-btn" color="primary"
+          <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'favourite-orders'"
                   (click)="setActive('favourite-orders')">
             <mat-icon>favorite</mat-icon>
           </button>
         </div>
         <div class="small-btn" >
-          <button mat-mini-fab class="mat-small-btn" color="primary"
+          <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'past-orders'"
                   (click)="setActive('past-orders')">
             <mat-icon>history</mat-icon>
           </button>
         </div>
         <div class="small-btn" >
-          <button mat-mini-fab class="mat-small-btn" color="primary"
+          <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'checkout'"
                   (click)="setActive('checkout')">
             <mat-icon>shopping_cart</mat-icon>
           </button>
         </div>
         <div class="small-btn" >
-          <button mat-mini-fab class="mat-small-btn" color="primary"
+          <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'settings'"
                   (click)="setActive('settings')">
             <mat-icon>settings</mat-icon>
           </button>
         </div>
         <div class="small-btn" style="margin-top: auto;">
-          <button mat-mini-fab class="mat-small-btn" color="primary"
+          <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'logout'"
                   (click)="setActive('logout')">
             <mat-icon>logout</mat-icon>
@@ -102,7 +107,30 @@
       </div>
       </mat-sidenav>
    }
-  <mat-sidenav-content>
+  <mat-sidenav-content >
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+
+<ng-template #logo>
+  <div style="display: flex; justify-content:center; margin-top:30px; margin-bottom:30px">
+ <a class="brand-logo" (click)="toggleSidenav()">
+    <img style="height: auto; width: 40px; padding-right: 4px;" mat-card-sm-image src="../../assets/trans_oran_park.png" />
+  </a>
+  </div>
+
+
+</ng-template>
+
+
+<ng-template #logoTitle>
+  <div style="display: flex; justify-content:center; margin-top:30px; margin-bottom:30px; align-items:center; gap:10px">
+ <a class="brand-logo" (click)="toggleSidenav()">
+    <img style="height: auto; width: 40px; padding-right: 4px;" mat-card-sm-image src="../../assets/trans_oran_park.png" />
+  </a>
+  <p style="font-size: 1.3em; font-weight:bold; color:#024f5c">OPH Canteen</p>
+  </div>
+
+
+</ng-template>

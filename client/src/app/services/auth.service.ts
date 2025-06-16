@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment'; // <--- Key import here
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,11 @@ export class AuthService {
   private readonly loginUrl: string = `${environment.apiUrl}/auth/login`;
   private readonly registerUrl: string = `${environment.apiUrl}/auth/register`;
 
+  private readonly isSignedUrl: string = `${environment.apiUrl}/auth/isSigned`;
+  private readonly isAuthenticatedUrl: string = `${environment.apiUrl}/auth/isAuthenticated`;
   private httpClient = inject(HttpClient);
 
-
+ private router = inject(Router);
 
   register(register: Register) {
     return this.httpClient.post<string>(this.registerUrl, register);
@@ -25,15 +28,19 @@ export class AuthService {
   }
 
   refresh() {
-    return this.httpClient.get<string>(this.authToken);
+    return this.httpClient.get<boolean>(this.authToken);
   }
 
   signOutClient() {
-    // this.router.navigate(['/signin']);
+    this.router.navigate(['/auth/login']);
   }
 
   isSigned() {
-    return this.httpClient.get<boolean>('');
+    return this.httpClient.get<boolean>(this.isSignedUrl);
+  }
+
+  isAuthenticated() {
+    return this.httpClient.get<boolean>(this.isAuthenticatedUrl);
   }
 
   signOutServer() {

@@ -27,7 +27,7 @@ export const DashboardGuard: CanActivateFn = (route: ActivatedRouteSnapshot, sta
  const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.isSigned()
+  return authService.isAuthenticated()
     .pipe(
       catchError(_ => {
         return of(null);
@@ -46,54 +46,64 @@ export const SignInGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state:
  const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.isSigned()
+  return authService.isAuthenticated()
     .pipe(
       catchError(_ => {
         return of(null);
       }),
       map(isValid => {
-        if (!isValid) {
-          return true;
+        if (isValid) {
+          router.navigate(['']);
+          return false;
         }
-        router.navigate(['']);
-        return false;
+
+
+        return true;
       })
     );
 };
 
 export const ROUTES: Routes = [
-   {
+ {
     path: '',
-    component: HomePageComponent, // User layout with side-nav
+    canActivate: [DashboardGuard],
+    component: HomePageComponent,
     children: [
-      { path: '', component: MainViewComponent },
+      { path: '', component: MainViewComponent }, // 👈 This is shown at /
       { path: 'favourite-orders', component: UserFavouriteOrderViewComponent },
       { path: 'past-orders', component: UserPastOrdersComponent },
       { path: 'checkout', component: CheckoutComponent },
       { path: 'settings', component: AccountSettingsComponent },
-      { path: 'payment', component: PaymentComponent, canActivate: [DashboardGuard]}
-    ],
-
-  },
-  {
-    path:'auth',
-    children:[
-      { path: 'login', component: SigninComponent, canActivate:[SignInGuard] },
-      { path: 'register', component: SignupComponent, canActivate:[SignInGuard] },
+      { path: 'payment', component: PaymentComponent }
     ]
   },
 
+  // 👇 Login/register routes (only if NOT logged in)
+  {
+    path: 'auth',
+    canActivate:[SignInGuard],
+    children: [
+      { path: 'login', component: SigninComponent},
+      { path: 'register', component: SignupComponent }
+    ]
+  },
+
+  // 👇 Staff routes
   {
     path: 'staff',
     children: [
       { path: 'login', component: StaffSignInComponent },
-      {
-        path: 'dashboard',
-        component: StaffdashboardComponent
-      },
-      // Add more authenticated staff routes here
+      { path: 'dashboard', component: StaffdashboardComponent }
     ]
   },
+
+  // 👇 Default redirect: unauthenticated users at `/` go to login
+  {
+    path: '',
+    pathMatch: 'full',
+    component: SigninComponent
+  },
+
   { path: '**', redirectTo: '' }
 ];
 

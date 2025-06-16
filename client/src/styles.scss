@@ -1,4 +1,4 @@
-body {
+html, body {
   min-height: 100vh;
   min-height: 100svh;
   padding: 0;
@@ -9,6 +9,7 @@ body {
   align-items: stretch;
   height: 100vh;
   height: 100svh;
+  background-color: white;
 }
 
 body {

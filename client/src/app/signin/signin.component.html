@@ -10,13 +10,17 @@
     <mat-card-content style="padding-top:20px;">
       <app-ui-textbox-material [autofocus]="true" [control]="signFormGroup.controls.email" style="margin-bottom: 20px;" icon="person" label="Email" ></app-ui-textbox-material>
        <app-password  [control]="signFormGroup.controls.password"></app-password>
+
+
+    @if (signFormGroup.hasError('submissionError')) {
+    <mat-error>{{signFormGroup.getError("submissionError").message || 'Something went wrong. Please try again later.' }}</mat-error>
+    }
     </mat-card-content>
 
     <div class="button-container">
         <button (click)="onSubmit()" mat-raised-button class="submit-button" color="primary">Login</button>
-        <span>Don't have an account? <a mat-button [routerLink]="['/auth/register']" target="_blank">Register</a></span>
+        <span>Don't have an account? <a mat-button [routerLink]="['/auth/register']" >Register</a></span>
     </div>
-
 
   </mat-card>
 </div>

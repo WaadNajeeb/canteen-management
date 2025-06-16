@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const passport = require("./services/passport");
 const authRoutes = require("./routes/authRoutes");
 const staffRoutes = require("./routes/staffRoutes");
+const foodRoutes = require('./routes/foodRoutes');
+
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -26,6 +28,8 @@ mongoose
 
 app.use("/auth", authRoutes);
 app.use("/staff", staffRoutes);
+app.use("/canteen", foodRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

@@ -1,32 +1,45 @@
-<mat-toolbar style=" background-color: #fafafa;; color:#024f5c;   padding:25px;     padding-top: 40px;
+<mat-toolbar style="background:#024f5c;   padding:25px;     padding-top: 40px;
     padding-bottom: 40px;">
- <button mat-fab class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleSidenav()">
-    <mat-icon>menu</mat-icon>
+ <button mat-icon-button class="example-icon" style="    color: #fff;
+    margin-left: 10px;" aria-label="Example icon-button with menu icon" (click)="toggleSidenav()">
+    <mat-icon class="menu-icon">menu</mat-icon>
   </button>
   <div style="display: flex; align-items:center; gap:5px; margin-left:40px">
  <ng-container *ngTemplateOutlet="logo"></ng-container>
-  <p style="font-size: 1em; font-weight:bold;">OPH Canteen</p>
+  <p style="font-size: 1em; font-weight:bold; color:#fff">OPH Canteen</p>
   </div>
 
-<mat-form-field appearance="outline" style="margin-left: 20%;
-    margin-top: 20px;
-    width: 600px;
-">
-  <input matInput type="search" placeholder="Search....">
-  <button matSuffix mat-icon-button aria-label="Search">
-    <mat-icon>search</mat-icon>
-  </button>
-</mat-form-field>
+@if({ user: user$ | async }; as vm){
 
-  <button   mat-raised-button style="background-color: #024f5c; color:#fff;     margin-left: auto;
+  <div style=" margin-left: auto;">
+ @if(vm.user){
+     <div class="account-info-flex">
+        <div class="account-user-info">
+            <p class="account-fullname" style="color: #fff;">{{vm.user?.fullName}}</p>
+          </div>
+
+        <div class="account-icon" style="color: #fff;">
+          <mat-icon class="account-icon">account_circle</mat-icon>
+        </div>
+
+
+      </div>
+  }@else {
+  <button   mat-raised-button style="
     border-radius: 30px;" [routerLink]="['/auth/login']">
     Sign In
   </button>
+  }
+  </div>
+
+
+}
+
 </mat-toolbar>
 
 <ng-template #logo>
   <a class="brand-logo" [routerLink]="['/']">
-    <img style="height: auto; width: 40px; padding-right: 4px;" mat-card-sm-image src="../../assets/oran-park-img.png" />
+    <img style="height: auto; width: 40px; padding-right: 4px;" mat-card-sm-image src="../../assets/trans_oran_park.png" />
   </a>
 
 </ng-template>

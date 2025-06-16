@@ -14,7 +14,7 @@ import { AuthService, Login } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { tap, catchError, EMPTY } from 'rxjs';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-signin',
   imports: [MatCardModule, CommonModule, RouterOutlet, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule,
@@ -24,13 +24,13 @@ import { tap, catchError, EMPTY } from 'rxjs';
 })
 export class SigninComponent {
 
-    private destroyRef = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
   protected authService = inject(AuthService);
   protected notificationService = inject(NotificationService);
   protected progressService = inject(ProgressService);
 
   signFormGroup = new FormGroup<LoginFormGroup>({
-    email: new FormControl<string>('',[ Validators.required, Validators.email]),
+    email: new FormControl<string>('',[ Validators.required]),
     password: new FormControl<string>('',[ Validators.required]),
   });
 
@@ -43,14 +43,15 @@ export class SigninComponent {
    const formValue = this.signFormGroup.value as Login;
 
     this.authService.login(formValue).pipe(
+      takeUntilDestroyed(this.destroyRef),
       tap((result: string) => {
         if (result) {
-          this.handleReigsterSucess(result);
+          this.handleLoginSuccess(result);
         }
       }),
       catchError((error: HttpErrorResponse) => {
         const fallbackMessage = 'Unknown error, please try again later.';
-        const errorMessage = error?.error?.Message || fallbackMessage;
+        const errorMessage = error?.error?.message || fallbackMessage;
 
         this.signFormGroup.setErrors({ submissionError: { message: errorMessage } });
         this.notificationService.error(errorMessage);
@@ -61,7 +62,7 @@ export class SigninComponent {
     ).subscribe();
   }
 
-  private handleReigsterSucess(result: string) {
+  private handleLoginSuccess(result: string) {
     this.router.navigate(['']);
     this.progressService.hide();
   }

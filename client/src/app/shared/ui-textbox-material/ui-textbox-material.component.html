@@ -10,12 +10,8 @@
     <mat-error>Please enter a {{label()}}</mat-error>
   }
 
-  @if (control().hasError("customValidation")) {
-    <mat-error>{{control().getError("customValidation").message}}</mat-error>
-  }
-
-  @if (control().hasError("minlength")) {
-    <mat-error>{{ label() }} at least characters</mat-error>
+  @if (control().hasError('email')) {
+    <mat-error>Please enter correct email format {{label()}}</mat-error>
   }
 
 </mat-form-field>

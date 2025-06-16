@@ -1,13 +1,18 @@
-
 .sidenav-container {
-  height:calc(100vh - 100px)
+  height: 100%;
 }
+
 
 mat-sidenav.small-nav-side,
 mat-sidenav.expanded-nav-side {
-  background-color: #fafafa;
+  background-color: #ffffff;
   transition: width 0.3s ease;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
 
+}
+.mat-drawer-container, .mat-drawer-content{
+  position: static;
 }
 
 mat-sidenav.small-nav-side {
@@ -83,3 +88,8 @@ mat-sidenav.expanded-nav-side {
 .mat-small-btn.active mat-icon {
   color: white !important;
 }
+
+.mat-mdc-icon-button{
+  border-radius: 10px;
+}
+

@@ -12,7 +12,7 @@
   background-color: transparent;
   border: none;
 }
-.mat-icon{
+.menu-icon, .search-icon{
 
   transform: scale(1.6);
 }
@@ -20,4 +20,39 @@
 
 .example-icon{
   color: #024f5c;
+}
+
+
+.account-info {
+  padding: 10px;
+}
+
+.account-label {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.account-info-flex {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.account-icon {
+  display: flex;
+  justify-content: center;
+  padding: 5px 10px;
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+.account-user-info {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px
+}
+
+.account-fullname {
+  color: #000;
+  font-size: 0.9em;
 }
