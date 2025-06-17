@@ -1,0 +1,20 @@
+
+<h1>Canteen Menu</h1>
+<div [formGroup]="searchForm" style="width: 400px;">
+      <app-ui-textbox-material [autofocus]="true" [control]="control" style="margin-bottom: 20px;" icon="search" label="Search"  placeholder="Search...." ></app-ui-textbox-material>
+</div>
+@if (menuItems$ | async; as result) {
+  <div>
+ <div class="card-row">
+  @for (item of result.items; track $index) {
+    <app-menu-item [foodItem]="item" ></app-menu-item>
+  }
+</div>
+
+<mat-paginator
+    [length]="result.totalItems"
+    [pageSize]="12"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+  </div>
+}

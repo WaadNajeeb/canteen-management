@@ -6,7 +6,7 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-today-favourite-consumer',
-  imports: [MenuItemComponent, MatCardModule, AsyncPipe],
+  imports: [MenuItemComponent, MatCardModule, AsyncPipe, MenuItemComponent],
   templateUrl: './today-favourite-consumer.component.html',
   styleUrl: './today-favourite-consumer.component.scss'
 })

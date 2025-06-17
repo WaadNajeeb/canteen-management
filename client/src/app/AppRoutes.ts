@@ -14,6 +14,9 @@ import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { catchError, of, map } from 'rxjs';
 import { UserAuthComponent } from './user-auth/user-auth.component';
+import { MenuItemsComponent } from './canteen/menu-items/menu-items.component';
+import { MenuItemDetailComponent } from './canteen/menu-item-detail/menu-item-detail.component';
+import { CanteenMenuViewComponent } from './canteen-menu-view/canteen-menu-view.component';
 
 export const StaffAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const authService = inject(AuthService);
@@ -46,7 +49,7 @@ export const SignInGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state:
  const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.isAuthenticated()
+  return authService.isSigned()
     .pipe(
       catchError(_ => {
         return of(null);
@@ -64,13 +67,22 @@ export const SignInGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state:
 };
 
 export const ROUTES: Routes = [
- {
+  // 👇 Protected app routes
+  {
     path: '',
     canActivate: [DashboardGuard],
     component: HomePageComponent,
     children: [
-      { path: '', component: MainViewComponent }, // 👈 This is shown at /
+      { path: '', component: MainViewComponent },
       { path: 'favourite-orders', component: UserFavouriteOrderViewComponent },
+
+      {
+      path: 'menu',
+      component: CanteenMenuViewComponent,
+      children: [
+        { path: ':id', component: MenuItemDetailComponent }
+      ]
+      },
       { path: 'past-orders', component: UserPastOrdersComponent },
       { path: 'checkout', component: CheckoutComponent },
       { path: 'settings', component: AccountSettingsComponent },
@@ -78,12 +90,12 @@ export const ROUTES: Routes = [
     ]
   },
 
-  // 👇 Login/register routes (only if NOT logged in)
+  // 👇 Login/register routes (unauthenticated access)
   {
     path: 'auth',
-    canActivate:[SignInGuard],
+    canActivate: [SignInGuard],
     children: [
-      { path: 'login', component: SigninComponent},
+      { path: 'login', component: SigninComponent },
       { path: 'register', component: SignupComponent }
     ]
   },
@@ -97,15 +109,8 @@ export const ROUTES: Routes = [
     ]
   },
 
-  // 👇 Default redirect: unauthenticated users at `/` go to login
-  {
-    path: '',
-    pathMatch: 'full',
-    component: SigninComponent
-  },
-
-  { path: '**', redirectTo: '' }
+  // 👇 Fallback: redirect all unknown routes to login
+  { path: '**', redirectTo: 'auth/login' }
 ];
-
 
 

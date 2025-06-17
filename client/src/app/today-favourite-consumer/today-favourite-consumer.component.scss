@@ -27,41 +27,8 @@
 
 .card-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+  grid-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(0, 400px));
+  justify-content: center;
 }
-
-.food-card {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
-  img {
-    width: 100%;
-    object-fit: cover;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-  }
-}
-
-
-mat-card-content {
-    padding: 1rem;
-
-    mat-card-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .description {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 1rem;
-    }
-
-    .price {
-      font-weight: bold;
-      color: #2e7d32;
-      font-size: 0.95rem;
-    }
-  }
 

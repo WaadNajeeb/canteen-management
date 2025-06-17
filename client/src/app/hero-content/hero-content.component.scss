@@ -10,7 +10,6 @@
   display: flex;
   justify-content: space-between;
   gap: 80px;
-  padding: 50px;
 }
 h1{
   margin-top: 0;
@@ -65,76 +64,8 @@ h1{
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow */
 }
 
-/* --- Today's Special Section Adjustments for 4K --- */
-.specials-section {
-  padding: 80px 5%; /* Increased padding for more vertical space */
-  background-color: #ffffff;
-  text-align: center;
+@media (max-width: 800px) {
+  .hero-content {
+    flex-direction: column;
+  }
 }
-
-.specials-section h2 {
-  font-size: 3.5em; /* Larger heading */
-  color: #024f5c;
-  margin-bottom: 60px; /* More space below heading */
-  display: flex; /* Use flex to align icon and text */
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* Space between icon and text */
-}
-
-
-.special-items {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 50px; /* Increased gap between special items */
-}
-
-.special-item {
-  background-color: #f9f9f9;
-  border-radius: 15px; /* Larger border-radius */
-  padding: 40px; /* Increased padding */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Slightly stronger shadow */
-  width: 400px; /* Larger fixed width for each special item */
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-}
-
-.special-item:hover {
-  transform: translateY(-10px); /* Lift effect on hover */
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-}
-
-.special-item h3 {
-  color: #024f5c;
-  margin-bottom: 15px;
-  font-size: 2.5em; /* Larger heading for special item */
-}
-
-.special-item p {
-  color: #666;
-  font-size: 1.3em; /* Larger paragraph for special item */
-  line-height: 1.6;
-}
-
-.special-item .price {
-  font-weight: bold;
-  font-size: 1.8em; /* Larger price text */
-  color: #333;
-  margin-top: 25px;
-}
-
-/* --- Canteen Menu Items Section (New/Adjusted) --- */
-.canteen-menu-section {
-  padding: 80px 5%; /* Generous padding */
-  background-color: #ffffff;
-  text-align: center;
-}
-
-.canteen-menu-section h2 {
-  font-size: 3.5em; /* Consistent with specials heading */
-  color: #024f5c;
-  margin-bottom: 60px;
-}
-
-

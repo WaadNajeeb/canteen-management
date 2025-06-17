@@ -1,5 +1,5 @@
 
-<!-- <app-consumer-nav-bar (clicked)="toggleSidenav($event)" ></app-consumer-nav-bar> -->
+<!-- <app-consumer-nav-bar ></app-consumer-nav-bar> -->
 <mat-sidenav-container class="sidenav-container"  >
 
    @if (isExpanded && !isMobile) {
@@ -8,7 +8,6 @@
           opened
         class="expanded-nav-side"
         >
-
        <ng-container *ngTemplateOutlet="logoTitle" ></ng-container>
 
       <div class="sidebar-icons">
@@ -17,6 +16,12 @@
                 (click)="setActive('home')">
           <mat-icon>home</mat-icon>
           Home
+        </button>
+         <button mat-flat-button class="mat-expanded-btn"
+                [class.active]="activePage === 'menu'"
+                (click)="setActive('menu')">
+          <mat-icon>menu_book</mat-icon>
+          Canteen Menu
         </button>
          <button mat-flat-button class="mat-expanded-btn"
                 [class.active]="activePage === 'favourite-orders'"
@@ -67,6 +72,13 @@
                   [class.active]="activePage === 'home'"
                   (click)="setActive('home')">
             <mat-icon>home</mat-icon>
+          </button>
+        </div>
+        <div class="small-btn" >
+          <button mat-icon-button class="mat-small-btn" color="primary"
+                  [class.active]="activePage === 'menu'"
+                  (click)="setActive('menu')">
+            <mat-icon>menu_book</mat-icon>
           </button>
         </div>
         <div class="small-btn" >

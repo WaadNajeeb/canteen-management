@@ -1,11 +1,18 @@
-<mat-card>
-  <img mat-card-image src="https://material.angular.dev/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
 
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
+<mat-card class="card-menu">
+  <div style="padding-left: 20px; padding-right: 20px; padding-top:20px; text-align:right">
+     <mat-icon>favorite</mat-icon>
+  </div>
 
+  <img style="padding: 20px;" mat-card-image src="../../../assets/ham.jpg" alt="{{ foodItem().name }}" />
+   <mat-card-content class="card-text">
+    <p class="food-name">{{ foodItem().name}}</p>
+    <p class="food-price">${{ foodItem().price.toFixed(2) }}</p>
+
+  </mat-card-content>
+  <mat-card-content  class="card-text">
+
+   <button mat-raised-button  style="background-color: #024f5c; color:#fff; width:100%">Order Now</button>
+  </mat-card-content>
 
 </mat-card>

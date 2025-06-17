@@ -236,7 +236,7 @@ router.get('/token', async (req, res) => {
   console.log('Refresh token received:', refreshToken);
 
   if (!refreshToken) {
-    return res.status(403).json(false);
+    return res.status(400).json(false);
   }
 
   try {

@@ -7,15 +7,28 @@ import { HttpService, RequestMethod } from './http.service';
 })
 export class CanteenService {
   private readonly topPicks: string = `${environment.apiUrl}/canteen/top-menu-pick`;
-
+  private readonly allMenu: string = `${environment.apiUrl}/canteen/menu/all`;
   private httpService = inject(HttpService);
   constructor() { }
 
 
 
   getTopPicks() {
-    return this.httpService.request<Food[]>(RequestMethod.GET, this.topPicks);
+    return this.httpService.request<FoodMenuItem[]>(RequestMethod.GET, this.topPicks);
   }
+
+  getUserFoodMenu() {
+    return this.httpService.request<FoodMenuItem[]>(RequestMethod.GET, this.topPicks);
+  }
+
+  getAllMenu(){
+    return this.httpService.request<FoodMenuItem[]>(RequestMethod.GET, this.allMenu);
+  }
+
+
+ getAllMenu2(search?: string, page: number = 1) {
+  return this.httpService.request<PaginatedData<FoodMenuItem>>(RequestMethod.GET, `${this.allMenu}?search=${search}&page=${page}`);
+}
 }
 
 
@@ -27,8 +40,8 @@ export interface User {
 }
 
 
-export interface Food {
-
+export interface FoodMenuItem {
+  _id: string;
   name:string;
   description: string;
   price:number;
@@ -37,4 +50,11 @@ export interface Food {
   available: string;
   allergens: string[]
 
+}
+
+export interface PaginatedData<T> {
+  items: T[];
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
 }

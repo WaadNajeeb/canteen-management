@@ -1,0 +1,14 @@
+h1{
+      font-size: 5em;
+    margin-bottom: 30px;
+    line-height: 1.1;
+    color: #024f5c;
+     margin-top: 0;
+}
+
+.card-row {
+  display: grid;
+  grid-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(0, 450px));
+ justify-content: space-between;
+}

@@ -8,20 +8,13 @@
     </mat-card-subtitle>
   </div>
 
-  <div class="card-row">
+  <div >
+<div class="card-row">
     @for (item of topPicks$ | async; track $index) {
-
-    <mat-card class="food-card">
-      <img src="../../../assets/ham.jpg" alt="Burger" />
-      <mat-card-content>
-        <mat-card-title>{{item.name}}</mat-card-title>
-        <p class="description">
-        {{item.description}}
-        </p>
-        <div class="price">From $ {{item.price}}</div>
-      </mat-card-content>
-    </mat-card>
+      <app-menu-item [foodItem]="item" ></app-menu-item>
     }
 
   </div>
+  </div>
+
 </div>
