@@ -13,10 +13,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CartService, CartItem2 } from '../services/cart.service';
 import { NgStyle } from '@angular/common';
+import { OrderService } from '../services/order.service';
+import { tap } from 'rxjs';
+import { ProgressService } from '../services/progress.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-summary',
-  imports: [ ReactiveFormsModule,
+  imports: [ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
@@ -35,7 +39,10 @@ import { NgStyle } from '@angular/common';
 })
 export class SummaryComponent {
 
-   private cartService = inject(CartService);
+  private cartService = inject(CartService);
+  private orderService = inject(OrderService);
+  private progressService = inject(ProgressService);
+  private notificationService = inject(NotificationService);
   readonly cartItems = signal<CartItem2[]>([]);
   selectedMealType = 'Lunch';
   paymentType = 'Card';
@@ -89,7 +96,20 @@ export class SummaryComponent {
     );
   }
 
-  confirmOrder() {}
+  confirmOrder() {
+    this.orderService.createOrder(this.selectedMealType, this.paymentType === 'Card' ? 'credit_card' : this.paymentType).pipe(
+      tap(_ => this.progressService.showSplash('Creating Order'))
+    ).subscribe(res => {
+      this.progressService.hide();
+
+      this.cartService.clearCartObserable();
+
+
+       this.notificationService.success(
+            `Your order was successfully sent to the school canteen`
+        )
+    });
+  }
 
   isPast12() {
     return this.pickupDate.getHours() >= 12;

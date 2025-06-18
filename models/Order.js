@@ -7,7 +7,7 @@ const orderSchema = new Schema(
 
     items: [
       {
-        menuItem: { type: Schema.Types.ObjectId, ref: 'menu', required: true },
+        menuItem: { type: Schema.Types.ObjectId, ref: 'Food', required: true },
         quantity: { type: Number, required: true, min: 1 }
       }
     ],

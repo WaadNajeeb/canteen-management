@@ -66,4 +66,7 @@ clearCart(): Observable<CartItem2[]> {
   getCartItemsSnapshot(): CartItem2[] {
     return this.cartItemsSubject.value;
   }
+  clearCartObserable(){
+    this.cartItemsSubject.next([]);
+  }
 }

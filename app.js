@@ -8,7 +8,7 @@ const staffRoutes = require("./routes/staffRoutes");
 const foodRoutes = require('./routes/foodRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const userRoutes = require('./routes/userRoutes');
-
+const orderRoutes = require('./routes/orderRoutes');
 
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -34,6 +34,7 @@ app.use("/staff", staffRoutes);
 app.use("/canteen", foodRoutes);
 app.use("/cart", cartRoutes);
 app.use('/user', userRoutes);
+app.use('/order', orderRoutes)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
