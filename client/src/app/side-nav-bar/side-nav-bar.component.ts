@@ -18,11 +18,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDivider, MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ConsumerNavBarComponent } from '../consumer-nav-bar/consumer-nav-bar.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { CanteenService } from '../services/canteen.service';
 import { CartService } from '../services/cart.service';
+import { filter } from 'rxjs';
 @Component({
   selector: 'app-side-nav-bar',
   imports: [
@@ -44,39 +45,40 @@ import { CartService } from '../services/cart.service';
 })
 export class SideNavBarComponent {
 
-  private canteenService = inject(CanteenService);
+   private canteenService = inject(CanteenService);
   public checkout = inject(CartService);
   @ViewChild('sidenav') sidenav: any;
+
   isExpanded = true;
   activePage = 'home';
+  isMobile = false;
+
+  constructor(private router: Router) {
+    this.checkScreenSize();
+  }
+
+  ngOnInit(): void {
+    this.setActivePageFromUrl(this.router.url);
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.setActivePageFromUrl(event.urlAfterRedirects);
+      });
+  }
+
+  private setActivePageFromUrl(url: string) {
+    const parts = url.split('/');
+    this.activePage = parts[1] || 'home'; // e.g., /menu -> 'menu'
+  }
 
   setActive(page: string) {
     this.activePage = page;
     this.router.navigate([page]);
   }
 
-  constructor(private router: Router) {
-    this.checkScreenSize();
-  }
-
-  isActive(path: string): boolean {
-    return this.router.url === `/dashboard${path ? '/' + path : ''}`;
-  }
-
-  logout() {
-    this.router.navigate(['/login']);
-  }
-
   toggleSidenav() {
-    alert(this.isExpanded)
-    if(this.isExpanded){
-      this.isExpanded = false;
-    }
-
-    this.isExpanded = true;
+    this.isExpanded = !this.isExpanded;
   }
-
-  isMobile: boolean = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -87,11 +89,11 @@ export class SideNavBarComponent {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  get cardQuantity(){
+  get cardQuantity() {
     return this.checkout.getTotalQuantity();
   }
 
-  get showNav(){
+  get showNav() {
     return this.isExpanded;
   }
 }

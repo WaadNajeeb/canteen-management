@@ -25,6 +25,8 @@ import { CartItem2, CartService } from '../services/cart.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CheckoutItemComponent } from "../checkout-item/checkout-item.component";
+import { SummaryComponent } from '../summary/summary.component';
 @Component({
   selector: 'app-checkout',
   imports: [
@@ -43,7 +45,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     NgStyle,
     MatDatepickerModule,
     MatNativeDateModule,
-  ],
+    CheckoutItemComponent,
+    SummaryComponent
+],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
@@ -62,49 +66,5 @@ export class CheckoutComponent {
     });
     this
   }
-  activeStyle = {
-    background: '#024f5c',
-    color: '#fff',
-  };
 
-  inactiveStyle = {
-    background: '#e0e0e0',
-    color: '#000',
-  };
-  readonly subtotal = computed(() =>
-    this.cartItems().reduce(
-      (total, item) => total + item.cartQuantity * (item.foodId.price ?? 0),
-      0
-    )
-  );
-
-  clear() {
-    this.cartService.clearCart().subscribe();
-  }
-
-  decreaseQuantity(item: CartItem2) {
-    this.cartService.updateCartItem(item.foodId._id, 1).subscribe();
-  }
-
-  increaseQuantity(item: CartItem2) {
-    this.cartService
-      .updateCartItem(item.foodId._id, item.cartQuantity + 1)
-      .subscribe();
-  }
-  removeItem(id: string) {
-    this.cartService.removeFromCart(id).subscribe();
-  }
-
-  calculateSubtotal(): number {
-    return this.cartItems().reduce(
-      (total, item) => total + item.foodId.price * item.cartQuantity,
-      0
-    );
-  }
-
-  confirmOrder() {}
-
-  isPast12() {
-    return this.pickupDate.getHours() >= 12;
-  }
 }

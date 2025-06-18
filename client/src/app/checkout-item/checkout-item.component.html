@@ -1,0 +1,40 @@
+<div class="cart-item">
+  <div class="cart-image">
+    <img
+      src="../../assets/ham.jpg"
+      alt="{{ item().foodId.name }}"
+    />
+  </div>
+
+  <div class="card-text">
+    <div class="card-top">
+      <div class="card-top-left">
+        <p class="food-name">{{ item().foodId.name }}</p>
+        <p class="price">${{ item().foodId.price }}</p>
+      </div>
+      <div class="card-top-right">
+        <div class="cart-subtotal">
+          <p>${{ item().foodId.price * item().cartQuantity }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-bottom">
+      <div class="cart-quantity">
+        <select class="quantity-select" [(ngModel)]="item().cartQuantity">
+          @for (num of getQuantityOptions(item().foodId.quantity); track $index) {
+
+           <option  [value]="num">
+            {{ num }}
+          </option>
+          }
+
+        </select>
+      </div>
+
+      <button mat-icon-button color="warn" (click)="removeItem(item().foodId._id)" class="remove-icon">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

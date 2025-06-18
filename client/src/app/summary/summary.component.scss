@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+.cart-summary .summary-card {
+  padding: 20px;
+  font-size: 1.4rem;
+}
+
+
+.summary-card {
+  padding: 16px;
+  font-size: 1.2rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.summary-row.total {
+  margin-top: 12px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.button-toggle-group {
+  margin-top: 20px;
+}
+
+.toggle-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+label{
+  font-size: 1em;
+}
