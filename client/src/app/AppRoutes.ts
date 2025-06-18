@@ -78,9 +78,9 @@ export const ROUTES: Routes = [
 
       {
       path: 'menu',
-      component: CanteenMenuViewComponent,
       children: [
-        { path: ':id', component: MenuItemDetailComponent }
+        { path: '', component: CanteenMenuViewComponent},
+        { path: ':id', component: MenuItemDetailComponent}
       ]
       },
       { path: 'past-orders', component: UserPastOrdersComponent },
@@ -112,5 +112,3 @@ export const ROUTES: Routes = [
   // 👇 Fallback: redirect all unknown routes to login
   { path: '**', redirectTo: 'auth/login' }
 ];
-
-

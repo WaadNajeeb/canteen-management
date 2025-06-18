@@ -13,7 +13,7 @@
 
   </div>
 
-  <img style="padding: 20px;" mat-card-image src="../../../assets/ham.jpg" alt="{{ foodItem().name }}" />
+  <img style="padding: 20px;" mat-card-image src="../../../assets/ham.jpg" alt="{{ foodItem().name }}"  (click)="goToMenuItem()" />
    <mat-card-content class="card-text">
     <p class="food-name">{{ foodItem().name}}</p>
     <p class="food-price">${{ foodItem().price.toFixed(2) }}</p>

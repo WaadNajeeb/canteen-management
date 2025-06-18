@@ -42,8 +42,8 @@ export class MenuItemComponent implements OnInit {
   ngOnInit(): void {
     this.isFavourited$ = this.favouriteService.isFavourite(this.foodItem()._id).pipe(shareReplay(1));
   }
-  onClick() {
-    this.router.navigate(['234234'], { relativeTo: this.route });
+  goToMenuItem() {
+    this.router.navigate(['/menu', this.foodItem()._id]);
   }
 
   addToCart(item: FoodMenuItem) {

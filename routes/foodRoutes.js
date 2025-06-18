@@ -89,7 +89,7 @@ router.get("/menu/:id", async (req, res) => {
     if (!item) {
       return res.status(404).json({ message: "Item not found" });
     }
-    res.json({ data: item });
+    res.json(item);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }

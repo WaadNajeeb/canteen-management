@@ -1,1 +1,34 @@
-<p>menu-item-detail works!</p>
+<div style="padding: 100px;">
+  @if(menuItem$ | async; as currentItem) {
+    <div>
+ <div
+        class="menu-item-detail-card"
+      >
+        <div style="width: 40%;">
+          <img
+            [src]="'../../../assets/ham.jpg'"
+            [alt]="currentItem.name"
+            style="width: 100%; height: auto; border-radius: 10px"
+          />
+        </div>
+        <div style="display:flex; flex-direction:column">
+          <h1>{{currentItem.name}}</h1>
+          <p>{{currentItem.description}}</p>
+
+          <p style="font-size: 1.8em; font-weight:600; margin-top:20px">${{currentItem.price.toFixed(2)}}</p>
+          <div style="margin-top:20px; font-size:1.2em">
+            <strong>Category</strong>
+            <p>{{currentItem.category}}</p>
+          </div>
+
+          <button mat-raised-button (click)="addToCart(currentItem)"  style="background-color: #024f5c; color:#fff; width:100%; margin-top:auto">Order</button>
+        </div>
+      </div>
+    </div>
+
+
+     <button mat-raised-button style="margin-top: 30px;" [routerLink]="['/menu']" > Go Back to Menu
+      <mat-icon>chevron_left</mat-icon>
+     </button>
+  }
+</div>
