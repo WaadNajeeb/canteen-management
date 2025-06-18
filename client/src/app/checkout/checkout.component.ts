@@ -67,4 +67,7 @@ export class CheckoutComponent {
     this
   }
 
+  clearCart(){
+    this.cartService.clearCart().subscribe();
+  }
 }

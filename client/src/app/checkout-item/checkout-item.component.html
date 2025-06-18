@@ -14,7 +14,7 @@
       </div>
       <div class="card-top-right">
         <div class="cart-subtotal">
-          <p>${{ item().foodId.price * item().cartQuantity }}</p>
+          <p>${{ (item().foodId.price * item().cartQuantity).toFixed(2)}}</p>
         </div>
       </div>
     </div>

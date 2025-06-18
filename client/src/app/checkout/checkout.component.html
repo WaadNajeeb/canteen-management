@@ -12,6 +12,10 @@
           <p class="empty-text">Your cart is empty.</p>
         }
       </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-flat-button (click)="clearCart()">Clear Cart</button>
+      </mat-card-actions>
     </mat-card>
 
     <app-summary></app-summary>

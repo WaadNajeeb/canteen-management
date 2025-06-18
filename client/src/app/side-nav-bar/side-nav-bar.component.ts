@@ -24,6 +24,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { CanteenService } from '../services/canteen.service';
 import { CartService } from '../services/cart.service';
 import { filter } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-side-nav-bar',
   imports: [
@@ -45,7 +46,7 @@ import { filter } from 'rxjs';
 })
 export class SideNavBarComponent {
 
-   private canteenService = inject(CanteenService);
+   private authService = inject(AuthService);
   public checkout = inject(CartService);
   @ViewChild('sidenav') sidenav: any;
 
@@ -95,5 +96,9 @@ export class SideNavBarComponent {
 
   get showNav() {
     return this.isExpanded;
+  }
+
+  logout(){
+    this.authService.logout();
   }
 }

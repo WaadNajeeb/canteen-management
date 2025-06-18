@@ -1,7 +1,16 @@
 
 <mat-card class="card-menu">
   <div style="padding-left: 20px; padding-right: 20px; padding-top:20px; text-align:right">
+<button mat-icon-button (click)="toggleFavourite()">
+  @if (isFavourited$ | async) {
+ <mat-icon style="color: red;">favorite</mat-icon>
+
+  }@else {
      <mat-icon>favorite</mat-icon>
+  }
+
+</button>
+
   </div>
 
   <img style="padding: 20px;" mat-card-image src="../../../assets/ham.jpg" alt="{{ foodItem().name }}" />
