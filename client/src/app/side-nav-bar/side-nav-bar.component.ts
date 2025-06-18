@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  inject,
   ViewChild,
 } from '@angular/core';
 
@@ -19,7 +20,9 @@ import { MatDivider, MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterOutlet } from '@angular/router';
 import { ConsumerNavBarComponent } from '../consumer-nav-bar/consumer-nav-bar.component';
-
+import {MatBadgeModule} from '@angular/material/badge';
+import { CanteenService } from '../services/canteen.service';
+import { CartService } from '../services/cart.service';
 @Component({
   selector: 'app-side-nav-bar',
   imports: [
@@ -33,14 +36,18 @@ import { ConsumerNavBarComponent } from '../consumer-nav-bar/consumer-nav-bar.co
     MatToolbarModule,
     RouterOutlet,
     ConsumerNavBarComponent,
-    MatDivider
+    MatDivider,
+    MatBadgeModule
   ],
   templateUrl: './side-nav-bar.component.html',
   styleUrl: './side-nav-bar.component.scss',
 })
 export class SideNavBarComponent {
+
+  private canteenService = inject(CanteenService);
+  public checkout = inject(CartService);
   @ViewChild('sidenav') sidenav: any;
-  isExpanded = false;
+  isExpanded = true;
   activePage = 'home';
 
   setActive(page: string) {
@@ -61,7 +68,12 @@ export class SideNavBarComponent {
   }
 
   toggleSidenav() {
-    this.isExpanded = !this.isExpanded;
+    alert(this.isExpanded)
+    if(this.isExpanded){
+      this.isExpanded = false;
+    }
+
+    this.isExpanded = true;
   }
 
   isMobile: boolean = false;
@@ -73,5 +85,13 @@ export class SideNavBarComponent {
 
   checkScreenSize() {
     this.isMobile = window.innerWidth <= 768;
+  }
+
+  get cardQuantity(){
+    return this.checkout.getTotalQuantity();
+  }
+
+  get showNav(){
+    return this.isExpanded;
   }
 }

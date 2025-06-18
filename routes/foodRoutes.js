@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const passport = require("passport");
 const Food = require("../models/food");
 const authorizeRoles = require("../middlewares/authorizeRoles");
@@ -48,6 +46,7 @@ router.get(
 
 router.get(
   "/menu/all",
+   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const { page = 1, search = "" } = req.query;

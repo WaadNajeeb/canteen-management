@@ -2,64 +2,10 @@
 <!-- <app-consumer-nav-bar ></app-consumer-nav-bar> -->
 <mat-sidenav-container class="sidenav-container"  >
 
-   @if (isExpanded && !isMobile) {
-      <mat-sidenav
-          mode="side"
-          opened
-        class="expanded-nav-side"
-        >
-       <ng-container *ngTemplateOutlet="logoTitle" ></ng-container>
 
-      <div class="sidebar-icons">
-        <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'home'"
-                (click)="setActive('home')">
-          <mat-icon>home</mat-icon>
-          Home
-        </button>
-         <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'menu'"
-                (click)="setActive('menu')">
-          <mat-icon>menu_book</mat-icon>
-          Canteen Menu
-        </button>
-         <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'favourite-orders'"
-                (click)="setActive('favourite-orders')">
-          <mat-icon>favorite</mat-icon>
-          Favorite
-        </button>
-        <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'past-orders'"
-                (click)="setActive('past-orders')">
-          <mat-icon>history</mat-icon>
-          Past Orders
-        </button>
-        <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'checkout'"
-                (click)="setActive('checkout')">
-          <mat-icon>shopping_cart</mat-icon>
-          Checkout
-        </button>
-        <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'settings'"
-                (click)="setActive('settings')">
-          <mat-icon>settings</mat-icon>
-          Settings
-        </button>
-        <button mat-flat-button class="mat-expanded-btn"
-                [class.active]="activePage === 'logout'"
-                (click)="setActive('logout')">
-          <mat-icon>logout</mat-icon>
-          Logout
-        </button>
-      </div>
-    </mat-sidenav>
-   }@else {
     <mat-sidenav
         mode="side"
-        opened
-        [hidden]="!isMobile || isExpanded"
+      [ngStyle]="{ display: showNav ? 'block' : 'none' }"
       class="small-nav-side"
       >
 
@@ -99,7 +45,7 @@
           <button mat-icon-button class="mat-small-btn" color="primary"
                   [class.active]="activePage === 'checkout'"
                   (click)="setActive('checkout')">
-            <mat-icon>shopping_cart</mat-icon>
+            <mat-icon [matBadge]="cardQuantity">shopping_cart</mat-icon>
           </button>
         </div>
         <div class="small-btn" >
@@ -118,7 +64,7 @@
         </div>
       </div>
       </mat-sidenav>
-   }
+
   <mat-sidenav-content >
     <router-outlet></router-outlet>
   </mat-sidenav-content>

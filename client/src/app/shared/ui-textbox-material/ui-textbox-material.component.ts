@@ -20,7 +20,7 @@ export class UiTextboxMaterialComponent implements OnInit  {
   readonly autofocus = input<boolean>(false);
   readonly icon = input<string>();
   readonly disabled = input<boolean>();
-
+  readonly placeholder = input<string>();
   ngOnInit(): void {
     if(this.disabled()){
       this.control().disable();

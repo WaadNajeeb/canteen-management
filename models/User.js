@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const { Schema } = mongoose;
+const cartItemSchema = new mongoose.Schema({
+  foodId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Food',
+    required: true,
+  },
+  cartQuantity: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+});
 
 const userSchema = new Schema(
   {
@@ -66,7 +78,8 @@ const userSchema = new Schema(
     myPastOrders: [{ type: Schema.Types.ObjectId, ref: 'orders' }],
 
     //favours the user owes
-    myFavourites: [{ type: Schema.Types.ObjectId, ref: 'Food' }]
+    myFavourites: [{ type: Schema.Types.ObjectId, ref: 'Food' }],
+    cart:[cartItemSchema]
 
   },
   {

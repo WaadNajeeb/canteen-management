@@ -1,6 +1,6 @@
 
 <h1>Canteen Menu</h1>
-<div [formGroup]="searchForm" style="width: 400px;">
+<div [formGroup]="searchForm" style="width: 400px; margin-bottom:20px">
       <app-ui-textbox-material [autofocus]="true" [control]="control" style="margin-bottom: 20px;" icon="search" label="Search"  placeholder="Search...." ></app-ui-textbox-material>
 </div>
 @if (menuItems$ | async; as result) {

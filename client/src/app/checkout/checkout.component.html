@@ -1,1 +1,153 @@
-<p>checkout works!</p>
+
+<div class="cart-container">
+ <h1>Your Orders</h1>
+
+ <div style="display: flex; gap:20px">
+ <mat-card class="cart-card">
+    <mat-card-content>
+      @if (cartItems().length > 0) {
+        @for (item of cartItems(); track item.foodId._id) {
+          <div class="cart-item">
+            <!-- Image -->
+            <div class="cart-image">
+              <img
+                [src]="'../../assets/ham.jpg'"
+                alt="{{ item.foodId.name }}"
+              />
+            </div>
+
+            <!-- Info -->
+            <div class="cart-info">
+              <p style="font-size: 2em;">{{ item.foodId.name }}</p>
+              <p class="price">${{ item.foodId.price }}</p>
+            </div>
+
+            <!-- Quantity -->
+            <div class="cart-quantity">
+              <button mat-icon-button color="primary" (click)="decreaseQuantity(item)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <input
+                type="number"
+                min="1"
+                [max]="item.foodId.quantity"
+                [(ngModel)]="item.cartQuantity"
+              />
+              <button mat-icon-button color="primary" (click)="increaseQuantity(item)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <!-- Subtotal -->
+            <div class="cart-subtotal">
+              <p>${{ item.foodId.price * item.cartQuantity }}</p>
+            </div>
+
+            <!-- Remove -->
+            <div class="cart-remove">
+              <button mat-icon-button color="warn" (click)="removeItem(item.foodId._id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+      } @else {
+        <p class="empty-text">Your cart is empty.</p>
+      }
+    </mat-card-content>
+  </mat-card>
+
+<div class="cart-summary" style="flex: 1;">
+  <mat-card class="summary-card">
+    <mat-card-header>
+      <mat-card-title style="font-size: 1.8em;">Order Summary</mat-card-title>
+    </mat-card-header>
+    <mat-divider style="margin-top: 20px;"></mat-divider>
+   <mat-card-content style="margin-top:20px; margin-bottom: 20px;">
+
+      <!-- Subtotal -->
+      <div class="summary-row">
+        <span>Subtotal:</span>
+        <span>${{ calculateSubtotal().toFixed(2) }}</span>
+      </div>
+
+      <!-- GST (10%) -->
+      <div class="summary-row">
+        <span>GST (10%):</span>
+        <span>${{ (calculateSubtotal() * 0.10).toFixed(2) }}</span>
+      </div>
+
+      <mat-divider></mat-divider>
+      <!-- Total -->
+      <div class="summary-row total"  style="    margin-bottom: 40px;">
+        <span><strong>Total:</strong></span>
+        <span><strong>${{ (calculateSubtotal() * 1.10).toFixed(2) }}</strong></span>
+      </div>
+
+    <div class="button-toggle-group">
+
+  <div class="button-toggle-group" style="margin-top: 20px;">
+  <label >Choose Date to pick your food:</label>
+  <mat-form-field appearance="fill" style="width: 100%; margin-top:10px" [appearance]="'outline'">
+    <mat-label>Pick-up Date</mat-label>
+    <input
+      matInput
+  [matDatepicker]="picker"
+  [(ngModel)]="pickupDate"
+  [min]="minDate"
+  placeholder="Choose a date"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+  <label>Meal Type:</label>
+  <div class="toggle-buttons">
+    <button [disabled]="isPast12()"
+      mat-raised-button
+      [ngStyle]="selectedMealType === 'Recess' ? activeStyle : inactiveStyle"
+      (click)="selectedMealType = 'Recess'"
+    >
+      Recess
+    </button>
+    <button
+      mat-raised-button
+      [ngStyle]="selectedMealType === 'Lunch' ? activeStyle : inactiveStyle"
+      (click)="selectedMealType = 'Lunch'"
+    >
+      Lunch
+    </button>
+  </div>
+  <div class="button-toggle-group" style="margin-top: 16px;">
+  <label>Payment:</label>
+  <div class="toggle-buttons">
+    <button
+      mat-raised-button
+      [ngStyle]="paymentType === 'Card' ? activeStyle : inactiveStyle"
+      (click)="paymentType = 'Card'"
+    >
+      Credit Card
+    </button>
+    <button
+      mat-raised-button
+      [ngStyle]="paymentType === 'Counter' ? activeStyle : inactiveStyle"
+      (click)="paymentType = 'Counter'"
+    >
+      Pay at Counter
+    </button>
+  </div>
+</div>
+</div>
+
+
+      <!-- Confirm Button -->
+      <div style="margin-top: 24px; text-align: center;">
+        <button mat-raised-button color="primary"  (click)="confirmOrder()" style="width: 100%; background:#024f5c; color:#fff">Confirm Order</button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+ </div>
+
+</div>

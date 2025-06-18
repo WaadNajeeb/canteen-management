@@ -1,9 +1,10 @@
 import { Component, inject, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { FoodMenuItem } from '../../services/canteen.service';
+import { CanteenService, FoodMenuItem } from '../../services/canteen.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-menu-item',
@@ -17,7 +18,13 @@ export class MenuItemComponent {
 
   protected router = inject(Router);
   protected route = inject(ActivatedRoute)
+  private canteenService = inject(CanteenService);
+  private cartService = inject(CartService);
   onClick(){
     this.router.navigate(['234234'], { relativeTo: this.route });
+  }
+
+  addToCart(item:FoodMenuItem){
+    this.cartService.addToCart(item._id).subscribe();
   }
 }
